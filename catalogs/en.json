@@ -381,6 +381,7 @@
   "language.only_english": "Other languages aren’t available from this community yet.",
   "language.pending": "{language} hasn’t downloaded yet. Fomio shows English until it does.",
   "language.removed": "{language} is no longer offered by this community. Fomio keeps showing the last downloaded version until you choose another language.",
+  "language.removed_english": "{language} is no longer offered by this community, so Fomio shows English. Your choice is kept in case it’s offered again; choose another language to change it.",
   "language.row_a11y": "Language, {language}",
   "language.row_label": "{name}, {detail}",
   "language.title": "Language",

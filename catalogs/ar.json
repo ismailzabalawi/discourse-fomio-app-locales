@@ -393,6 +393,7 @@
   "language.only_english": "لا تتوفر لغات أخرى من هذا المجتمع بعد.",
   "language.pending": "لم تُنزَّل {language} بعد. يعرض Fomio الإنجليزية حتى يكتمل التنزيل.",
   "language.removed": "لم يعد هذا المجتمع يوفّر {language}. يواصل Fomio عرض آخر نسخة نُزّلت حتى تختار لغة أخرى.",
+  "language.removed_english": "لم يعد هذا المجتمع يوفّر {language}، لذا يعرض Fomio الإنجليزية. يبقى اختيارك محفوظًا في حال عادت؛ اختر لغة أخرى لتغييره.",
   "language.row_a11y": "اللغة، {language}",
   "language.row_label": "{name}، {detail}",
   "language.title": "اللغة",
