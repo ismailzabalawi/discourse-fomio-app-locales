@@ -3,9 +3,9 @@
 Public, read-only interface catalogs for the Fomio native iOS app. The app shows English (bundled) until a
 member chooses another language in Me › Language; it then downloads only that language from this endpoint.
 
-Status: implemented with request specs on branch `fomio/app-locale-catalog` (based on Discourse d4296c5).
-**Not deployed.** `https://meta.fomio.app/fomio/app-locales/1/index.json` returns 404 at the deployed
-revision 7b4f0970 (checked read-only on 2026-10-15).
+Status: implemented with request specs on branch `fomio/app-locale-catalog` (based on Discourse d4296c5); the
+specs also pass on the deployed revision 7b4f0970 (see the app repository's validation record). Released as
+`v0.1.0` (below). Installation on the meta.fomio.app host is pending host access.
 
 ## Endpoints
 
@@ -79,10 +79,44 @@ bundle exec rubocop plugins/discourse-fomio-app-locales
 An app build whose keys are newer than the server's rejects the server catalog (missing keys) and keeps
 English or its last good cache, so the server must be updated before or with an app release.
 
-## Deployment (not done; requires authorization)
+## Release and deployment
 
-1. Move this directory into its own repository (Discourse ignores `/plugins/*` other than core plugins).
-2. Add its clone to the site's `containers/app.yml` `hooks.after_code` and rebuild; no migrations.
-3. Leave `fomio_app_locales = en` until a language is approved, then add it.
-4. Verify read-only: index lists only approved locales, a catalog returns 200 with `ETag`, a repeat with
-   `If-None-Match` returns 304, and a signed-in request has no `X-Discourse-Username`.
+Follows the Fomio plugin supply-chain runbook (Fomio monorepo,
+`apps/mobile/docs/20-implementation/discourse-plugin-supply-chain-runbook.md`): one standalone repository per
+plugin whose root is `plugin.rb`, produced by `git subtree split`, installed pinned to a tag.
+
+- Standalone repository: `https://github.com/ismailzabalawi/discourse-fomio-app-locales` (public: the server
+  clones it without credentials; it contains no secrets), branch `main`, tag `v0.1.0`.
+- Source: `git subtree split --prefix=plugins/discourse-fomio-app-locales` of branch `fomio/app-locale-catalog`
+  in the Discourse reference checkout. The split commit is recorded in the app repository's validation record.
+
+Install on the host that serves `meta.fomio.app` (a standard `/var/discourse` install), next to the existing
+plugin clones in `containers/app.yml`:
+
+```yaml
+hooks:
+  after_code:
+    - exec:
+        cd: $home/plugins
+        cmd:
+          # (existing clones stay as they are)
+          - git clone --branch v0.1.0 --depth 1 https://github.com/ismailzabalawi/discourse-fomio-app-locales.git
+```
+
+```
+cd /var/discourse
+cp containers/app.yml containers/app.yml.before-fomio-app-locales   # rollback copy
+./launcher rebuild app
+```
+
+- No migrations, no writes, no new jobs. Defaults: `fomio_app_locales_enabled` true, `fomio_app_locales` `en`
+  (English only). Do not change web interface languages or content translation settings.
+- Health after rebuild: `/srv/status` returns `ok`; the generator meta still shows the expected Discourse
+  revision; `/admin/plugins` lists `discourse-fomio-app-locales` 0.1.0.
+- Verify (anonymous and signed in): index lists only `en`; `/1/en.json` 200 with `ETag` and
+  `Cache-Control: public, max-age=300`; repeat with `If-None-Match` → 304; no `X-Discourse-Username`;
+  `/1/ar.json`, `/2/index.json`, `/1/xx.json` → 404.
+- Stop switch without a rebuild: set `fomio_app_locales_enabled` false (every route then 404s and the app keeps
+  English). Rollback: restore `app.yml.before-fomio-app-locales` (or remove the clone line) and rebuild; there
+  is no data to clean up.
+- Adding a language (`fomio_app_locales = en|ar`) requires the recorded native-speaker review first.
