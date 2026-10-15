@@ -1,0 +1,10 @@
+plugins:
+  fomio_app_locales_enabled:
+    default: true
+    client: false
+  fomio_app_locales:
+    type: list
+    list_type: compact
+    # English only until each additional language passes native-speaker review; see README.md.
+    default: "en"
+    client: false

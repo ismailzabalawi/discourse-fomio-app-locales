@@ -1,0 +1,1977 @@
+{
+ "schema": 1,
+ "reviewed": "2026-10-15",
+ "discourse_reference": {
+  "local_head": "d4296c5ecf2bef4f11e42d8f3fd2282c8752f4e2",
+  "deployed": "7b4f0970506fb0ce7d4b6a851d252ace418330c8",
+  "note": "Every mapped key exists with the same English value at both revisions."
+ },
+ "rules": [
+  "discourse: resolve I18n.t(discourse_key, locale:) including that locale's site-text override. If the locale has no translation of its own (Discourse would fall back to English) or the resolved value fails app validation, use the maintained Fomio translation for this key instead.",
+  "fomio: serve the maintained translation from Localization/catalogs/<locale>.json (English from Fomio/Resources/Localization/fomio-catalog-en.json).",
+  "Convert Discourse %{name} interpolation to {name}; reject markup and values that are translation keys.",
+  "Never apply an override from one locale to another locale."
+ ],
+ "terminology": {
+  "decision": "Native interface nouns stay 'discussion' (topic) and 'community' (category/subcategory) in every locale. Site-text branding overrides for topic/category keys are not mapped.",
+  "evidence": "Public /extra-locales/<digest>/en/overrides.js on 2026-10-15 (inspected, not used by the app): topic keys -> Byte/Bytes, category keys -> Hub, subcategory keys -> Teret/terets; inconsistent casing (js.topic.new = 'new byte' vs js.topic.create = 'New Byte'); js.category.all overridden to the literal key 'js.hubs.all'. Only English has overrides.",
+  "to_adopt_branding": "Add a reviewed terminology variant per locale for every key that contains the noun (search the English catalog for discussion/community/subcommunity), then map them together. Do not substitute words."
+ },
+ "keys": {
+  "access.back_to_communities": {
+   "source": "fomio",
+   "plural": false
+  },
+  "access.denied.community_message": {
+   "source": "fomio",
+   "plural": false
+  },
+  "access.denied.discussion_message": {
+   "source": "fomio",
+   "plural": false
+  },
+  "access.denied.title": {
+   "source": "fomio",
+   "plural": false
+  },
+  "access.denied.unknown_message": {
+   "source": "fomio",
+   "plural": false
+  },
+  "access.denied.unknown_name": {
+   "source": "fomio",
+   "plural": false
+  },
+  "app.name": {
+   "source": "fomio",
+   "plural": false
+  },
+  "auth.error.callback_invalid": {
+   "source": "fomio",
+   "plural": false
+  },
+  "auth.error.callback_mismatch": {
+   "source": "fomio",
+   "plural": false
+  },
+  "auth.error.in_progress": {
+   "source": "fomio",
+   "plural": false
+  },
+  "auth.error.no_window": {
+   "source": "fomio",
+   "plural": false
+  },
+  "auth.error.open": {
+   "source": "fomio",
+   "plural": false
+  },
+  "auth.error.prepare": {
+   "source": "fomio",
+   "plural": false
+  },
+  "auth.error.read": {
+   "source": "fomio",
+   "plural": false
+  },
+  "auth.error.remove": {
+   "source": "fomio",
+   "plural": false
+  },
+  "auth.error.save": {
+   "source": "fomio",
+   "plural": false
+  },
+  "auth.error.update": {
+   "source": "fomio",
+   "plural": false
+  },
+  "auth.gate.create.message": {
+   "source": "fomio",
+   "plural": false
+  },
+  "auth.gate.create.message_in": {
+   "source": "fomio",
+   "plural": false
+  },
+  "auth.gate.create.title": {
+   "source": "fomio",
+   "plural": false
+  },
+  "auth.gate.like.title": {
+   "source": "fomio",
+   "plural": false
+  },
+  "auth.gate.post_action.message": {
+   "source": "fomio",
+   "plural": false
+  },
+  "auth.gate.quote.title": {
+   "source": "fomio",
+   "plural": false
+  },
+  "auth.gate.reply.message": {
+   "source": "fomio",
+   "plural": false
+  },
+  "auth.gate.reply.title": {
+   "source": "fomio",
+   "plural": false
+  },
+  "auth.gate.save.title": {
+   "source": "fomio",
+   "plural": false
+  },
+  "auth.gate.sign_in.message": {
+   "source": "fomio",
+   "plural": false
+  },
+  "auth.previous_account_draft": {
+   "source": "fomio",
+   "plural": false
+  },
+  "auth.sign_in": {
+   "source": "fomio",
+   "plural": false
+  },
+  "auth.sign_out": {
+   "source": "fomio",
+   "plural": false
+  },
+  "auth.sign_out.confirm_message": {
+   "source": "fomio",
+   "plural": false
+  },
+  "auth.sign_out.confirm_title": {
+   "source": "fomio",
+   "plural": false
+  },
+  "auth.sign_out.confirm_title_generic": {
+   "source": "fomio",
+   "plural": false
+  },
+  "auth.sign_out_failed": {
+   "source": "fomio",
+   "plural": false
+  },
+  "auth.signed_in": {
+   "source": "fomio",
+   "plural": false
+  },
+  "auth.signed_in.like": {
+   "source": "fomio",
+   "plural": false
+  },
+  "auth.signed_in.reply": {
+   "source": "fomio",
+   "plural": false
+  },
+  "auth.signed_in.save": {
+   "source": "fomio",
+   "plural": false
+  },
+  "auth.signed_out": {
+   "source": "fomio",
+   "plural": false
+  },
+  "common.back": {
+   "source": "discourse",
+   "discourse_key": "js.back_button",
+   "plural": false
+  },
+  "common.back_to": {
+   "source": "fomio",
+   "plural": false
+  },
+  "common.cancel": {
+   "source": "discourse",
+   "discourse_key": "js.cancel",
+   "plural": false
+  },
+  "common.clear_search": {
+   "source": "discourse",
+   "discourse_key": "js.search.clear_search",
+   "plural": false
+  },
+  "common.collapsed": {
+   "source": "fomio",
+   "plural": false
+  },
+  "common.dismiss": {
+   "source": "fomio",
+   "plural": false
+  },
+  "common.done": {
+   "source": "discourse",
+   "discourse_key": "js.done",
+   "plural": false
+  },
+  "common.edit": {
+   "source": "discourse",
+   "discourse_key": "js.edit",
+   "plural": false
+  },
+  "common.ellipsis": {
+   "source": "fomio",
+   "plural": false
+  },
+  "common.expanded": {
+   "source": "fomio",
+   "plural": false
+  },
+  "common.list_separator": {
+   "source": "fomio",
+   "plural": false
+  },
+  "common.load_more_failed": {
+   "source": "fomio",
+   "plural": false
+  },
+  "common.meta_separator": {
+   "source": "fomio",
+   "plural": false
+  },
+  "common.more": {
+   "source": "discourse",
+   "discourse_key": "js.more",
+   "plural": false
+  },
+  "common.not_now": {
+   "source": "fomio",
+   "plural": false
+  },
+  "common.ok": {
+   "source": "discourse",
+   "discourse_key": "js.ok_value",
+   "plural": false
+  },
+  "common.remove": {
+   "source": "fomio",
+   "plural": false
+  },
+  "common.save": {
+   "source": "fomio",
+   "plural": false
+  },
+  "common.selected_a11y": {
+   "source": "fomio",
+   "plural": false
+  },
+  "common.try_again": {
+   "source": "fomio",
+   "plural": false
+  },
+  "communities.child_row": {
+   "source": "fomio",
+   "plural": false
+  },
+  "communities.empty.message": {
+   "source": "fomio",
+   "plural": false
+  },
+  "communities.empty.title": {
+   "source": "fomio",
+   "plural": false
+  },
+  "communities.error.children_incomplete": {
+   "source": "fomio",
+   "plural": false
+  },
+  "communities.error.incomplete": {
+   "source": "fomio",
+   "plural": false
+  },
+  "communities.filter.matches": {
+   "source": "fomio",
+   "plural": true
+  },
+  "communities.filter.none": {
+   "source": "fomio",
+   "plural": false
+  },
+  "communities.filter.scope": {
+   "source": "fomio",
+   "plural": false
+  },
+  "communities.filter.search_discussions": {
+   "source": "fomio",
+   "plural": false
+  },
+  "communities.find": {
+   "source": "fomio",
+   "plural": false
+  },
+  "communities.hide_children": {
+   "source": "fomio",
+   "plural": false
+  },
+  "communities.loading": {
+   "source": "fomio",
+   "plural": false
+  },
+  "communities.refresh_failed": {
+   "source": "fomio",
+   "plural": false
+  },
+  "communities.restricted": {
+   "source": "fomio",
+   "plural": false
+  },
+  "communities.row": {
+   "source": "fomio",
+   "plural": false
+  },
+  "communities.row.restricted": {
+   "source": "fomio",
+   "plural": false
+  },
+  "communities.show_children": {
+   "source": "fomio",
+   "plural": false
+  },
+  "communities.unavailable": {
+   "source": "fomio",
+   "plural": false
+  },
+  "community.about": {
+   "source": "discourse",
+   "discourse_key": "js.about.simple_title",
+   "plural": false
+  },
+  "community.about.introduction": {
+   "source": "fomio",
+   "plural": false
+  },
+  "community.about.no_description": {
+   "source": "fomio",
+   "plural": false
+  },
+  "community.fallback_name": {
+   "source": "fomio",
+   "plural": false
+  },
+  "community.name_with_parent": {
+   "source": "fomio",
+   "plural": false
+  },
+  "community.open": {
+   "source": "fomio",
+   "plural": false
+  },
+  "community.open_in": {
+   "source": "fomio",
+   "plural": false
+  },
+  "community.subcommunities": {
+   "source": "fomio",
+   "plural": false
+  },
+  "community.unavailable.message": {
+   "source": "fomio",
+   "plural": false
+  },
+  "community.unavailable.title": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.add_block": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.add_block_ellipsis": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.add_photo": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.back_to_discussion": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.block.body": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.block.code": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.block.code.language": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.block.concealed": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.block.date": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.block.date.timezone": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.block.details": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.block.details.summary": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.block.error.code": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.block.error.details": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.block.error.poll": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.block.error.quote": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.block.error.spoiler": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.block.error.table": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.block.error.timezone": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.block.generic": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.block.poll": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.block.poll.add_option": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.block.poll.maximum": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.block.poll.minimum": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.block.poll.multiple": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.block.poll.option": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.block.poll.options": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.block.poll.question": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.block.spoiler": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.block.spoiler.conceal": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.block.spoiler.preview_a11y": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.block.spoiler.reveal": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.block.table": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.block.table.add_column": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.block.table.add_row": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.block.table.cell": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.block.table.headers": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.block.table.remove_column": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.block.table.remove_row": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.block.table.row": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.block.unsupported": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.body.opening_label": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.body.opening_placeholder": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.body.reply_label": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.body.reply_placeholder": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.check_again": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.cleanup_failed": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.context.quoting": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.context.replying": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.context.replying_in": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.context.replying_to": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.destination.a11y_required": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.destination.a11y_selected": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.destination.change": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.destination.child_a11y": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.destination.children_of": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.destination.choose": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.destination.close": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.destination.in_parent": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.destination.no_match": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.destination.none_available": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.destination.post_in": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.destination.required": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.destination.search": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.discard": {
+   "source": "discourse",
+   "discourse_key": "js.composer.discard",
+   "plural": false
+  },
+  "composer.discard_draft": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.discussion_number": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.draft_discarded": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.draft_kept": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.edit_markdown": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.error.choose_community": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.error.unresolved_photos": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.expired.message.discussion": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.expired.message.reply": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.expired.title": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.format": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.format.bold": {
+   "source": "discourse",
+   "discourse_key": "js.keyboard_shortcuts_help.composing.bold",
+   "plural": false
+  },
+  "composer.format.italic": {
+   "source": "discourse",
+   "discourse_key": "js.keyboard_shortcuts_help.composing.italic",
+   "plural": false
+  },
+  "composer.formatting": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.found.discussion": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.found.reply": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.insert": {
+   "source": "discourse",
+   "discourse_key": "js.composer.link_dialog_action",
+   "plural": false
+  },
+  "composer.insert.after": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.insert.at_cursor": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.insert.at_end": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.insert.at_start": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.inserter.advanced": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.inserter.code_detail": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.inserter.date_detail": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.inserter.details_detail": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.inserter.heading_detail": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.inserter.list_detail": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.inserter.media": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.inserter.no_match": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.inserter.paragraph_detail": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.inserter.photo_detail": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.inserter.poll_detail": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.inserter.quote_detail": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.inserter.search": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.inserter.spoiler_detail": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.inserter.subheading_detail": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.inserter.table_detail": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.keep.changed": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.keep.photo_failed.discussion": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.keep.photo_failed.reply": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.keep.photo_uploading.discussion": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.keep.photo_uploading.reply": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.keep.title.discussion": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.keep.title.reply": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.keep_as_draft": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.keep_draft": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.keep_draft_without_photo": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.keep_editing": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.kept_unconfirmed": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.keyboard.hide": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.keyboard.show": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.link": {
+   "source": "discourse",
+   "discourse_key": "js.composer.link_title",
+   "plural": false
+  },
+  "composer.link.text": {
+   "source": "discourse",
+   "discourse_key": "js.composer.link_optional_text",
+   "plural": false
+  },
+  "composer.link.url": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.new_discussion": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.new_discussion_in": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.no_destination": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.pending.message.discussion": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.pending.message.reply": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.photo": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.photo.add_again": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.photo.continue_without": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.photo.default_description": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.photo.description": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.photo.read_failed": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.photo.remove": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.photo.resume_or_remove": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.photo.resume_upload": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.photo.retain_failed": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.photo.retry_upload": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.photo.status.failed": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.photo.status.missing": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.photo.status.queued": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.photo.status.retained": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.photo.status.uploaded": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.photo.status.uploading": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.photo.too_large": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.photo_lost.message.discussion": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.photo_lost.message.reply": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.photo_lost.title": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.post": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.posted.discussion": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.posted.discussion_in": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.posted.reply": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.posting": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.quote.collapse": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.quote.expand": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.quote.reply_below": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.reauthorized": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.redo": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.rejected.message": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.rejected.title": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.replies_not_permitted": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.reply_permission_lost": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.retry.action": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.retry.message.discussion": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.retry.message.reply": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.retry.open": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.retry.title": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.rich_text": {
+   "source": "discourse",
+   "discourse_key": "js.composition_mode.rich",
+   "plural": false
+  },
+  "composer.save.failed": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.selection_done_hint": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.similar": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.similar_one": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.still_unconfirmed": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.style.heading": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.style.list": {
+   "source": "discourse",
+   "discourse_key": "js.composer.ulist_title",
+   "plural": false
+  },
+  "composer.style.paragraph": {
+   "source": "discourse",
+   "discourse_key": "js.composer.heading_level_paragraph",
+   "plural": false
+  },
+  "composer.style.text": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.title_field": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.turn_into": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.turn_into_close": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.turn_into_current": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.unconfirmed.duplicate_warning": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.unconfirmed.message": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.unconfirmed.title.discussion": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.unconfirmed.title.reply": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.undo": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.undo_action.change_block": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.undo_action.edit": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.undo_action.edit_block": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.undo_action.format": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.undo_action.insert": {
+   "source": "fomio",
+   "plural": false
+  },
+  "composer.undo_action.insert_link": {
+   "source": "discourse",
+   "discourse_key": "js.composer.link_dialog_title",
+   "plural": false
+  },
+  "composer.undo_action.insert_photo": {
+   "source": "fomio",
+   "plural": false
+  },
+  "config.needed.message": {
+   "source": "fomio",
+   "plural": false
+  },
+  "config.needed.title": {
+   "source": "fomio",
+   "plural": false
+  },
+  "content.community_photo": {
+   "source": "fomio",
+   "plural": false
+  },
+  "content.details": {
+   "source": "fomio",
+   "plural": false
+  },
+  "content.loading_photo": {
+   "source": "fomio",
+   "plural": false
+  },
+  "content.photo_unavailable": {
+   "source": "fomio",
+   "plural": false
+  },
+  "content.quote_a11y": {
+   "source": "fomio",
+   "plural": false
+  },
+  "content.reveal_spoiler": {
+   "source": "fomio",
+   "plural": false
+  },
+  "content.spoiler_a11y": {
+   "source": "fomio",
+   "plural": false
+  },
+  "content.table_cell_a11y": {
+   "source": "fomio",
+   "plural": false
+  },
+  "content.unsupported": {
+   "source": "fomio",
+   "plural": false
+  },
+  "content.view_original": {
+   "source": "fomio",
+   "plural": false
+  },
+  "discussion.archived": {
+   "source": "fomio",
+   "plural": false
+  },
+  "discussion.closed": {
+   "source": "fomio",
+   "plural": false
+  },
+  "discussion.context_truncated": {
+   "source": "fomio",
+   "plural": false
+  },
+  "discussion.continue_thread": {
+   "source": "discourse",
+   "discourse_key": "js.nested_replies.continue_thread",
+   "plural": false
+  },
+  "discussion.hide_replies": {
+   "source": "fomio",
+   "plural": false
+  },
+  "discussion.loading": {
+   "source": "fomio",
+   "plural": false
+  },
+  "discussion.more_actions": {
+   "source": "fomio",
+   "plural": false
+  },
+  "discussion.more_branch_replies": {
+   "source": "fomio",
+   "plural": false
+  },
+  "discussion.more_replies": {
+   "source": "discourse",
+   "discourse_key": "js.nested_replies.load_more_children_generic",
+   "plural": false
+  },
+  "discussion.nav_title": {
+   "source": "fomio",
+   "plural": false
+  },
+  "discussion.no_replies": {
+   "source": "discourse",
+   "discourse_key": "js.nested_replies.no_replies",
+   "plural": false
+  },
+  "discussion.no_replies_yet": {
+   "source": "fomio",
+   "plural": false
+  },
+  "discussion.replies": {
+   "source": "fomio",
+   "plural": true
+  },
+  "discussion.replies_heading": {
+   "source": "discourse",
+   "discourse_key": "js.replies",
+   "plural": false
+  },
+  "discussion.reply_to_discussion": {
+   "source": "fomio",
+   "plural": false
+  },
+  "discussion.reply_to_post": {
+   "source": "fomio",
+   "plural": false
+  },
+  "discussion.retry_replies": {
+   "source": "fomio",
+   "plural": false
+  },
+  "discussion.show_all_replies": {
+   "source": "fomio",
+   "plural": false
+  },
+  "discussion.sort.community": {
+   "source": "fomio",
+   "plural": false
+  },
+  "discussion.sort.newest": {
+   "source": "fomio",
+   "plural": false
+  },
+  "discussion.sort.oldest": {
+   "source": "fomio",
+   "plural": false
+  },
+  "discussion.unavailable": {
+   "source": "fomio",
+   "plural": false
+  },
+  "drafts.discard.message": {
+   "source": "fomio",
+   "plural": false
+  },
+  "drafts.discard.message_submitted": {
+   "source": "fomio",
+   "plural": false
+  },
+  "drafts.discard.title": {
+   "source": "fomio",
+   "plural": false
+  },
+  "drafts.discard_a11y": {
+   "source": "fomio",
+   "plural": false
+  },
+  "drafts.edited_ago": {
+   "source": "fomio",
+   "plural": false
+  },
+  "drafts.edited_now": {
+   "source": "fomio",
+   "plural": false
+  },
+  "drafts.empty.message": {
+   "source": "fomio",
+   "plural": false
+  },
+  "drafts.empty.title": {
+   "source": "fomio",
+   "plural": false
+  },
+  "drafts.kind.quote_reply": {
+   "source": "fomio",
+   "plural": false
+  },
+  "drafts.kind.reply": {
+   "source": "discourse",
+   "discourse_key": "js.topic.reply.title",
+   "plural": false
+  },
+  "drafts.kind_in": {
+   "source": "fomio",
+   "plural": false
+  },
+  "drafts.no_community": {
+   "source": "fomio",
+   "plural": false
+  },
+  "drafts.no_text": {
+   "source": "fomio",
+   "plural": false
+  },
+  "drafts.pending": {
+   "source": "fomio",
+   "plural": false
+  },
+  "drafts.photo_not_included": {
+   "source": "fomio",
+   "plural": false
+  },
+  "drafts.resume": {
+   "source": "discourse",
+   "discourse_key": "js.drafts.resume",
+   "plural": false
+  },
+  "drafts.resume_a11y": {
+   "source": "fomio",
+   "plural": false
+  },
+  "drafts.unconfirmed": {
+   "source": "fomio",
+   "plural": false
+  },
+  "drafts.untitled": {
+   "source": "fomio",
+   "plural": false
+  },
+  "error.configuration": {
+   "source": "fomio",
+   "plural": false
+  },
+  "error.denied": {
+   "source": "fomio",
+   "plural": false
+  },
+  "error.offline": {
+   "source": "fomio",
+   "plural": false
+  },
+  "error.rate_limited": {
+   "source": "fomio",
+   "plural": false
+  },
+  "error.request_rejected": {
+   "source": "fomio",
+   "plural": false
+  },
+  "error.server": {
+   "source": "fomio",
+   "plural": false
+  },
+  "error.unauthorized": {
+   "source": "fomio",
+   "plural": false
+  },
+  "error.unavailable": {
+   "source": "fomio",
+   "plural": false
+  },
+  "error.unconfirmed": {
+   "source": "fomio",
+   "plural": false
+  },
+  "error.unsupported": {
+   "source": "fomio",
+   "plural": false
+  },
+  "feed.appearance": {
+   "source": "fomio",
+   "plural": false
+  },
+  "feed.appearance.cards": {
+   "source": "fomio",
+   "plural": false
+  },
+  "feed.appearance.compact": {
+   "source": "fomio",
+   "plural": false
+  },
+  "feed.empty.community_message": {
+   "source": "fomio",
+   "plural": false
+  },
+  "feed.empty.home_message": {
+   "source": "fomio",
+   "plural": false
+  },
+  "feed.empty.title": {
+   "source": "fomio",
+   "plural": false
+  },
+  "feed.guest_note": {
+   "source": "fomio",
+   "plural": false
+  },
+  "feed.guest_note.dismiss": {
+   "source": "fomio",
+   "plural": false
+  },
+  "feed.includes_subcommunities": {
+   "source": "fomio",
+   "plural": false
+  },
+  "feed.latest": {
+   "source": "discourse",
+   "discourse_key": "js.filters.latest.title",
+   "plural": false
+  },
+  "feed.loading": {
+   "source": "fomio",
+   "plural": false
+  },
+  "feed.more": {
+   "source": "fomio",
+   "plural": false
+  },
+  "feed.options.community": {
+   "source": "fomio",
+   "plural": false
+  },
+  "feed.options.home": {
+   "source": "fomio",
+   "plural": false
+  },
+  "feed.unavailable": {
+   "source": "fomio",
+   "plural": false
+  },
+  "focus.notification": {
+   "source": "fomio",
+   "plural": false
+  },
+  "focus.published": {
+   "source": "fomio",
+   "plural": false
+  },
+  "focus.saved": {
+   "source": "fomio",
+   "plural": false
+  },
+  "focus.search": {
+   "source": "fomio",
+   "plural": false
+  },
+  "language.download_failed.message": {
+   "source": "fomio",
+   "plural": false
+  },
+  "language.download_failed.title": {
+   "source": "fomio",
+   "plural": false
+  },
+  "language.downloading": {
+   "source": "fomio",
+   "plural": false
+  },
+  "language.footer": {
+   "source": "fomio",
+   "plural": false
+  },
+  "language.only_english": {
+   "source": "fomio",
+   "plural": false
+  },
+  "language.pending": {
+   "source": "fomio",
+   "plural": false
+  },
+  "language.removed": {
+   "source": "fomio",
+   "plural": false
+  },
+  "language.row_a11y": {
+   "source": "fomio",
+   "plural": false
+  },
+  "language.row_label": {
+   "source": "fomio",
+   "plural": false
+  },
+  "language.title": {
+   "source": "fomio",
+   "plural": false
+  },
+  "link.unsupported": {
+   "source": "fomio",
+   "plural": false
+  },
+  "me.drafts": {
+   "source": "discourse",
+   "discourse_key": "js.drafts.label",
+   "plural": false
+  },
+  "me.guest.message": {
+   "source": "fomio",
+   "plural": false
+  },
+  "me.guest.title": {
+   "source": "fomio",
+   "plural": false
+  },
+  "me.handle_view_profile": {
+   "source": "fomio",
+   "plural": false
+  },
+  "me.photo_credits": {
+   "source": "fomio",
+   "plural": false
+  },
+  "me.row_count": {
+   "source": "fomio",
+   "plural": false
+  },
+  "me.saved": {
+   "source": "fomio",
+   "plural": false
+  },
+  "me.view_your_profile": {
+   "source": "fomio",
+   "plural": false
+  },
+  "media.loading_image": {
+   "source": "fomio",
+   "plural": false
+  },
+  "notifications.empty": {
+   "source": "fomio",
+   "plural": false
+  },
+  "notifications.guest.message": {
+   "source": "fomio",
+   "plural": false
+  },
+  "notifications.guest.title": {
+   "source": "fomio",
+   "plural": false
+  },
+  "notifications.mentioned": {
+   "source": "fomio",
+   "plural": false
+  },
+  "notifications.more": {
+   "source": "fomio",
+   "plural": false
+  },
+  "notifications.replied": {
+   "source": "fomio",
+   "plural": false
+  },
+  "notifications.row_a11y": {
+   "source": "fomio",
+   "plural": false
+  },
+  "notifications.row_a11y_age": {
+   "source": "fomio",
+   "plural": false
+  },
+  "notifications.row_a11y_unread": {
+   "source": "fomio",
+   "plural": false
+  },
+  "notifications.someone": {
+   "source": "fomio",
+   "plural": false
+  },
+  "notifications.unread": {
+   "source": "fomio",
+   "plural": false
+  },
+  "offline.composer": {
+   "source": "fomio",
+   "plural": false
+  },
+  "offline.discussion": {
+   "source": "fomio",
+   "plural": false
+  },
+  "offline.lead": {
+   "source": "fomio",
+   "plural": false
+  },
+  "pending.discussion_message": {
+   "source": "fomio",
+   "plural": false
+  },
+  "pending.discussion_message_in": {
+   "source": "fomio",
+   "plural": false
+  },
+  "pending.reply_message": {
+   "source": "fomio",
+   "plural": false
+  },
+  "pending.title": {
+   "source": "fomio",
+   "plural": false
+  },
+  "post.a11y.like": {
+   "source": "fomio",
+   "plural": true
+  },
+  "post.a11y.opening": {
+   "source": "fomio",
+   "plural": false
+  },
+  "post.a11y.quote": {
+   "source": "fomio",
+   "plural": false
+  },
+  "post.a11y.remove_saved": {
+   "source": "fomio",
+   "plural": false
+  },
+  "post.a11y.reply": {
+   "source": "fomio",
+   "plural": false
+  },
+  "post.a11y.reply_to": {
+   "source": "fomio",
+   "plural": false
+  },
+  "post.a11y.save": {
+   "source": "fomio",
+   "plural": false
+  },
+  "post.a11y.unlike": {
+   "source": "fomio",
+   "plural": true
+  },
+  "post.deleted": {
+   "source": "fomio",
+   "plural": false
+  },
+  "post.hidden": {
+   "source": "fomio",
+   "plural": false
+  },
+  "post.like": {
+   "source": "discourse",
+   "discourse_key": "js.post.controls.like_action",
+   "plural": false
+  },
+  "post.like_count": {
+   "source": "fomio",
+   "plural": true
+  },
+  "post.likes": {
+   "source": "fomio",
+   "plural": true
+  },
+  "post.member_fallback": {
+   "source": "fomio",
+   "plural": false
+  },
+  "post.number": {
+   "source": "fomio",
+   "plural": false
+  },
+  "post.quote": {
+   "source": "discourse",
+   "discourse_key": "js.post.quote_reply",
+   "plural": false
+  },
+  "post.remove_saved": {
+   "source": "fomio",
+   "plural": false
+  },
+  "post.removed_saved_toast": {
+   "source": "fomio",
+   "plural": false
+  },
+  "post.reply": {
+   "source": "discourse",
+   "discourse_key": "js.topic.reply.title",
+   "plural": false
+  },
+  "post.save": {
+   "source": "fomio",
+   "plural": false
+  },
+  "post.save_post": {
+   "source": "fomio",
+   "plural": false
+  },
+  "post.saved": {
+   "source": "fomio",
+   "plural": false
+  },
+  "post.saved_toast": {
+   "source": "fomio",
+   "plural": false
+  },
+  "post.share": {
+   "source": "discourse",
+   "discourse_key": "js.post.controls.share_action",
+   "plural": false
+  },
+  "post.share_unconfigured": {
+   "source": "fomio",
+   "plural": false
+  },
+  "post.started_discussion": {
+   "source": "fomio",
+   "plural": false
+  },
+  "post.unavailable.message": {
+   "source": "fomio",
+   "plural": false
+  },
+  "post.unavailable.nav_title": {
+   "source": "fomio",
+   "plural": false
+  },
+  "post.unavailable.title": {
+   "source": "fomio",
+   "plural": false
+  },
+  "post.view_profile": {
+   "source": "fomio",
+   "plural": false
+  },
+  "profile.handle": {
+   "source": "fomio",
+   "plural": false
+  },
+  "profile.handle_joined": {
+   "source": "fomio",
+   "plural": false
+  },
+  "profile.no_recent": {
+   "source": "fomio",
+   "plural": false
+  },
+  "profile.recent": {
+   "source": "fomio",
+   "plural": false
+  },
+  "profile.title": {
+   "source": "discourse",
+   "discourse_key": "js.user.profile",
+   "plural": false
+  },
+  "profile.topic_a11y": {
+   "source": "fomio",
+   "plural": false
+  },
+  "profile.unavailable": {
+   "source": "fomio",
+   "plural": false
+  },
+  "quote.a11y": {
+   "source": "fomio",
+   "plural": false
+  },
+  "quote.attribution": {
+   "source": "fomio",
+   "plural": false
+  },
+  "saved.discussion_a11y": {
+   "source": "fomio",
+   "plural": false
+  },
+  "saved.empty.message": {
+   "source": "fomio",
+   "plural": false
+  },
+  "saved.empty.title": {
+   "source": "fomio",
+   "plural": false
+  },
+  "saved.more": {
+   "source": "fomio",
+   "plural": false
+  },
+  "saved.reply": {
+   "source": "fomio",
+   "plural": false
+  },
+  "saved.reply_a11y": {
+   "source": "fomio",
+   "plural": false
+  },
+  "saved.reply_by": {
+   "source": "fomio",
+   "plural": false
+  },
+  "saved.untitled": {
+   "source": "fomio",
+   "plural": false
+  },
+  "search.discussions": {
+   "source": "fomio",
+   "plural": false
+  },
+  "search.intro": {
+   "source": "fomio",
+   "plural": false
+  },
+  "search.more": {
+   "source": "fomio",
+   "plural": false
+  },
+  "search.no_results": {
+   "source": "fomio",
+   "plural": false
+  },
+  "search.no_results.message": {
+   "source": "fomio",
+   "plural": false
+  },
+  "search.opening_post": {
+   "source": "fomio",
+   "plural": false
+  },
+  "search.opening_post_by": {
+   "source": "fomio",
+   "plural": false
+  },
+  "search.result_a11y.discussion": {
+   "source": "fomio",
+   "plural": false
+  },
+  "search.result_a11y.reply": {
+   "source": "fomio",
+   "plural": false
+  },
+  "search.results_heading": {
+   "source": "fomio",
+   "plural": false
+  },
+  "search.searching": {
+   "source": "fomio",
+   "plural": false
+  },
+  "search.title": {
+   "source": "discourse",
+   "discourse_key": "js.search.title",
+   "plural": false
+  },
+  "search.unavailable": {
+   "source": "fomio",
+   "plural": false
+  },
+  "tab.communities": {
+   "source": "fomio",
+   "plural": false
+  },
+  "tab.home": {
+   "source": "discourse",
+   "discourse_key": "js.home",
+   "plural": false
+  },
+  "tab.me": {
+   "source": "fomio",
+   "plural": false
+  },
+  "tab.notifications": {
+   "source": "discourse",
+   "discourse_key": "js.user.notifications",
+   "plural": false
+  },
+  "time.compact.days": {
+   "source": "fomio",
+   "plural": true
+  },
+  "time.compact.hours": {
+   "source": "fomio",
+   "plural": true
+  },
+  "time.compact.minutes": {
+   "source": "fomio",
+   "plural": true
+  },
+  "time.compact.now": {
+   "source": "fomio",
+   "plural": false
+  },
+  "topic.a11y.has_image": {
+   "source": "fomio",
+   "plural": false
+  },
+  "topic.a11y.in": {
+   "source": "fomio",
+   "plural": false
+  },
+  "topic.a11y.in_child": {
+   "source": "fomio",
+   "plural": false
+  },
+  "topic.a11y.photo": {
+   "source": "fomio",
+   "plural": false
+  },
+  "topic.a11y.started_by": {
+   "source": "fomio",
+   "plural": false
+  },
+  "topic.active.ago": {
+   "source": "fomio",
+   "plural": false
+  },
+  "topic.active.now": {
+   "source": "fomio",
+   "plural": false
+  },
+  "topic.active.spoken.days": {
+   "source": "fomio",
+   "plural": true
+  },
+  "topic.active.spoken.hours": {
+   "source": "fomio",
+   "plural": true
+  },
+  "topic.active.spoken.minutes": {
+   "source": "fomio",
+   "plural": true
+  },
+  "topic.active.spoken.now": {
+   "source": "fomio",
+   "plural": false
+  },
+  "topic.category_path": {
+   "source": "fomio",
+   "plural": false
+  },
+  "topic.open_hint": {
+   "source": "fomio",
+   "plural": false
+  },
+  "topic.pinned": {
+   "source": "discourse",
+   "discourse_key": "js.topic_statuses.pinned.title",
+   "plural": false
+  },
+  "topic.started_by": {
+   "source": "fomio",
+   "plural": false
+  }
+ }
+}
