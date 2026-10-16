@@ -2,7 +2,7 @@
 
 # name: discourse-fomio-app-locales
 # about: Public, read-only interface catalogs for the Fomio native app (one locale per request)
-# version: 0.1.0
+# version: 0.1.1
 # authors: Fomio
 # url: https://meta.fomio.app
 

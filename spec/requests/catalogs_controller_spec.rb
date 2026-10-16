@@ -81,6 +81,21 @@ describe DiscourseFomioAppLocales::CatalogsController do
       expect(response.status).to eq(304)
     end
 
+    it "revalidates with the weak ETag a compressing proxy hands to clients (production finding 2026-10-16)" do
+      get "/fomio/app-locales/1/en.json"
+      revision = response.parsed_body["revision"]
+      {
+        %(W/"#{revision}") => 304,
+        %("other", W/"#{revision}") => 304,
+        "*" => 304,
+        %(W/"other") => 200,
+        %("#{revision}x") => 200,
+      }.each do |header, status|
+        get "/fomio/app-locales/1/en.json", headers: { "If-None-Match" => header }
+        expect(response.status).to eq(status), "If-None-Match #{header}"
+      end
+    end
+
     it "reflects a changed site-text override for that locale in a new revision" do
       get "/fomio/app-locales/1/en.json"
       before = response.parsed_body

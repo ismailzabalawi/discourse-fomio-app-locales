@@ -61,8 +61,17 @@ module ::DiscourseFomioAppLocales
       etag = %("#{revision}")
       response.headers["ETag"] = etag
       response.headers["Cache-Control"] = "public, max-age=300"
-      return head :not_modified if request.headers["If-None-Match"] == etag
+      return head :not_modified if etag_matches?(revision)
       render json: body
+    end
+
+    # If-None-Match uses weak comparison (RFC 9110 13.1.2): a compressing proxy turns our strong ETag into
+    # W/"…", and clients send that back.
+    def etag_matches?(revision)
+      header = request.headers["If-None-Match"].to_s
+      return false if header.blank?
+      return true if header.strip == "*"
+      header.split(",").any? { |tag| tag.strip.delete_prefix("W/") == %("#{revision}") }
     end
   end
 end
