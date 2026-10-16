@@ -3,9 +3,9 @@
 Public, read-only interface catalogs for the Fomio native iOS app. The app shows English (bundled) until a
 member chooses another language in Me › Language; it then downloads only that language from this endpoint.
 
-Status: implemented with request specs on branch `fomio/app-locale-catalog` (based on Discourse d4296c5); the
-specs also pass on the deployed revision 7b4f0970 (see the app repository's validation record). Released as
-`v0.1.0` (below). Installation on the meta.fomio.app host is pending host access.
+Status (2026-10-16): v0.1.0 deployed on meta.fomio.app (Discourse 28529a6d) and verified anonymously and signed in.
+v0.1.1 compares `If-None-Match` weakly (RFC 9110 13.1.2): behind compression the ETag reaches clients as `W/"…"`, and
+v0.1.0 then answered 200 instead of 304. To deploy it, push tag `v0.1.1` and change the clone line to `--branch v0.1.1`.
 
 ## Endpoints
 
