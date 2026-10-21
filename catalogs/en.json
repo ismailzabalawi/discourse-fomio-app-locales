@@ -1,13 +1,14 @@
 {
- "schema": 1,
+ "schema": 2,
  "locale": "en",
- "revision": "bundled-en-1",
+ "revision": "bundled-en-2",
  "direction": "ltr",
  "complete": true,
  "plural_categories": [
   "one",
   "other"
  ],
+ "fallback": [],
  "messages": {
   "access.back_to_communities": "Back to Communities",
   "access.denied.community_message": "{community} is only open to some members.",
@@ -379,6 +380,7 @@
   "language.downloading": "Downloading {language}…",
   "language.footer": "Fomio starts in English. Choosing a language downloads it from this community and changes Fomio’s buttons, labels and messages. Posts, names and community text stay in the language they were written in.",
   "language.only_english": "Other languages aren’t available from this community yet.",
+  "language.partial": "Partly translated: some text appears in English",
   "language.pending": "{language} hasn’t downloaded yet. Fomio shows English until it does.",
   "language.removed": "{language} is no longer offered by this community. Fomio keeps showing the last downloaded version until you choose another language.",
   "language.removed_english": "{language} is no longer offered by this community, so Fomio shows English. Your choice is kept in case it’s offered again; choose another language to change it.",

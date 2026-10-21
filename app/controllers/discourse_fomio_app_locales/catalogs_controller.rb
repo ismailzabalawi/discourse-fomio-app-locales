@@ -33,6 +33,8 @@ module ::DiscourseFomioAppLocales
             native_name: names["nativeName"] || locale,
             direction: catalog[:direction],
             complete: true,
+            plural_categories: catalog[:plural_categories],
+            coverage: catalog[:coverage],
             revision: catalog[:revision],
           }
         end

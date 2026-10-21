@@ -2,3 +2,4 @@ en:
   site_settings:
     fomio_app_locales_enabled: "Serve the Fomio native app's interface catalogs at /fomio/app-locales."
     fomio_app_locales: "Interface languages offered to the Fomio native app (separate from the web's available interface languages and from content translation). Add a language only after its native catalog has passed review; a language is listed only when Discourse supports it and its catalog validates."
+    fomio_app_terminology_overrides: "Apply site-text overrides of Fomio app sentences that name a discussion or community (for example to brand them). Turn on only after every such sentence has been overridden for each offered language; until then the app keeps its own wording for them."

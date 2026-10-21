@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 # name: discourse-fomio-app-locales
-# about: Public, read-only interface catalogs for the Fomio native app (one locale per request)
-# version: 0.1.1
+# about: Public, read-only interface catalogs for the Fomio native app, assembled from site texts administrators can override
+# version: 0.3.0
 # authors: Fomio
 # url: https://meta.fomio.app
 

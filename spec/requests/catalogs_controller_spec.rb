@@ -14,19 +14,25 @@ describe DiscourseFomioAppLocales::CatalogsController do
   describe "#index" do
     it "lists only allowed, Discourse-supported locales with complete catalogs, anonymously" do
       SiteSetting.fomio_app_locales = "ar|fr|xx|en"
-      get "/fomio/app-locales/1/index.json"
+      get "/fomio/app-locales/2/index.json"
 
       expect(response.status).to eq(200)
       body = response.parsed_body
-      expect(body["schema"]).to eq(1)
-      # fr is supported by Discourse but has no native catalog or app plural rules; xx is not a locale.
-      expect(body["locales"].map { |l| l["locale"] }).to eq(%w[ar en])
+      expect(body["schema"]).to eq(2)
+      # fr has no Fomio site texts but is a Discourse locale: offered with Discourse text and English
+      # fallback. xx is not a Discourse locale.
+      expect(body["locales"].map { |l| l["locale"] }).to eq(%w[ar fr en])
       arabic = body["locales"].first
       expect(arabic).to include(
         "direction" => "rtl",
         "complete" => true,
         "native_name" => "اللغة العربية",
+        "plural_categories" => %w[zero one two few many other],
       )
+      expect(arabic["coverage"]).to include("total" => manifest_keys.size)
+      french = body["locales"].second
+      expect(french["coverage"]["overlay"]).to eq(0)
+      expect(french["coverage"]["english_fallback"]).to be > 0
       expect(response.headers["ETag"]).to be_present
     end
 
@@ -34,34 +40,36 @@ describe DiscourseFomioAppLocales::CatalogsController do
       SiteSetting.default_locale = "ar"
       SiteSetting.allow_user_locale = true
       sign_in(Fabricate(:user, locale: "ar"))
-      get "/fomio/app-locales/1/index.json"
+      get "/fomio/app-locales/2/index.json"
       expect(response.parsed_body["default_locale"]).to eq("en")
       expect(response.parsed_body["locales"].map { |l| l["locale"] }).to eq(%w[en ar])
     end
 
     it "is served anonymously on login-required sites" do
       SiteSetting.login_required = true
-      get "/fomio/app-locales/1/index.json"
+      get "/fomio/app-locales/2/index.json"
       expect(response.status).to eq(200)
     end
 
     it "returns 404 for another schema or when the plugin is disabled" do
-      get "/fomio/app-locales/2/index.json"
+      get "/fomio/app-locales/1/index.json"
+      expect(response.status).to eq(404)
+      get "/fomio/app-locales/3/index.json"
       expect(response.status).to eq(404)
       SiteSetting.fomio_app_locales_enabled = false
-      get "/fomio/app-locales/1/index.json"
+      get "/fomio/app-locales/2/index.json"
       expect(response.status).to eq(404)
     end
   end
 
   describe "#show" do
     it "serves a complete Arabic catalog with plural metadata, ETag and 304 revalidation" do
-      get "/fomio/app-locales/1/ar.json"
+      get "/fomio/app-locales/2/ar.json"
 
       expect(response.status).to eq(200)
       body = response.parsed_body
       expect(body).to include(
-        "schema" => 1,
+        "schema" => 2,
         "locale" => "ar",
         "direction" => "rtl",
         "complete" => true,
@@ -77,12 +85,12 @@ describe DiscourseFomioAppLocales::CatalogsController do
       expect(etag).to eq(%("#{body["revision"]}"))
       expect(response.headers["Cache-Control"]).to include("public")
 
-      get "/fomio/app-locales/1/ar.json", headers: { "If-None-Match" => etag }
+      get "/fomio/app-locales/2/ar.json", headers: { "If-None-Match" => etag }
       expect(response.status).to eq(304)
     end
 
     it "revalidates with the weak ETag a compressing proxy hands to clients (production finding 2026-10-16)" do
-      get "/fomio/app-locales/1/en.json"
+      get "/fomio/app-locales/2/en.json"
       revision = response.parsed_body["revision"]
       {
         %(W/"#{revision}") => 304,
@@ -91,17 +99,17 @@ describe DiscourseFomioAppLocales::CatalogsController do
         %(W/"other") => 200,
         %("#{revision}x") => 200,
       }.each do |header, status|
-        get "/fomio/app-locales/1/en.json", headers: { "If-None-Match" => header }
+        get "/fomio/app-locales/2/en.json", headers: { "If-None-Match" => header }
         expect(response.status).to eq(status), "If-None-Match #{header}"
       end
     end
 
     it "reflects a changed site-text override for that locale in a new revision" do
-      get "/fomio/app-locales/1/en.json"
+      get "/fomio/app-locales/2/en.json"
       before = response.parsed_body
 
       TranslationOverride.upsert!("en", "js.cancel", "Never mind")
-      get "/fomio/app-locales/1/en.json", headers: { "If-None-Match" => %("#{before["revision"]}") }
+      get "/fomio/app-locales/2/en.json", headers: { "If-None-Match" => %("#{before["revision"]}") }
 
       expect(response.status).to eq(200)
       expect(response.parsed_body["messages"]["common.cancel"]).to eq("Never mind")
@@ -111,37 +119,41 @@ describe DiscourseFomioAppLocales::CatalogsController do
     it "never applies another locale's override and rejects unsafe override values" do
       TranslationOverride.upsert!("en", "js.cancel", "Never mind")
       TranslationOverride.upsert!("ar", "js.done", "js.hubs.all")
-      get "/fomio/app-locales/1/ar.json"
+      get "/fomio/app-locales/2/ar.json"
 
       messages = response.parsed_body["messages"]
       expect(messages["common.cancel"]).to eq(I18n.t("js.cancel", locale: :ar))
-      maintained = DiscourseFomioAppLocales::CatalogBuilder.maintained("ar")["messages"]
-      expect(messages["common.done"]).to eq(maintained["common.done"])
+      # The invalid same-locale override is skipped; Discourse's own Arabic is used.
+      expect(messages["common.done"]).to eq(
+        JsLocaleHelper.translations_for("ar", no_fallback: true).dig("ar", "js", "done"),
+      )
     end
 
     it "keeps topic/category terminology Fomio-owned despite branding overrides" do
       TranslationOverride.upsert!("en", "js.topic.create", "New Byte")
       TranslationOverride.upsert!("en", "js.category_title", "Hub")
-      get "/fomio/app-locales/1/en.json"
+      get "/fomio/app-locales/2/en.json"
       messages = response.parsed_body["messages"]
       expect(messages["composer.new_discussion"]).to eq("New discussion")
       expect(messages.values.grep(/Byte|Hub/)).to be_empty
     end
 
     it "returns 404 for locales that are not allowed, unsupported or malformed" do
-      SiteSetting.fomio_app_locales = "en"
-      get "/fomio/app-locales/1/ar.json"
+      SiteSetting.fomio_app_locales = "en|xx"
+      get "/fomio/app-locales/2/ar.json"
       expect(response.status).to eq(404)
-      get "/fomio/app-locales/1/fr.json"
+      get "/fomio/app-locales/2/fr.json"
       expect(response.status).to eq(404)
-      get "/fomio/app-locales/1/AR.json"
+      get "/fomio/app-locales/2/xx.json"
+      expect(response.status).to eq(404)
+      get "/fomio/app-locales/2/AR.json"
       expect(response.status).to eq(404)
     end
 
     it "does not use the requester's credentials or locale" do
       SiteSetting.allow_user_locale = true
       sign_in(Fabricate(:user, locale: "ar"))
-      get "/fomio/app-locales/1/en.json"
+      get "/fomio/app-locales/2/en.json"
       expect(response.parsed_body["locale"]).to eq("en")
       expect(response.parsed_body["messages"]["common.cancel"]).to eq("Cancel")
     end
@@ -164,7 +176,7 @@ describe DiscourseFomioAppLocales::CatalogsController do
     end
 
     it "never names the member on the index or a catalog, including 304 revalidations" do
-      %w[/fomio/app-locales/1/index.json /fomio/app-locales/1/ar.json].each do |path|
+      %w[/fomio/app-locales/2/index.json /fomio/app-locales/2/ar.json].each do |path|
         get path
         expect(response.status).to eq(200)
         expect(response.headers["Cache-Control"]).to include("public")
@@ -185,7 +197,7 @@ describe DiscourseFomioAppLocales::CatalogsController do
         seen = original.receiver.response.headers["X-Discourse-Username"]
         original.call
       end
-      get "/fomio/app-locales/1/en.json"
+      get "/fomio/app-locales/2/en.json"
       expect(seen).to eq(user.username)
       expect(response.headers).not_to have_key("X-Discourse-Username")
     end

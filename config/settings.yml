@@ -8,3 +8,7 @@ plugins:
     # English only until each additional language passes native-speaker review; see README.md.
     default: "en"
     client: false
+  fomio_app_terminology_overrides:
+    # Off: overrides of sentences naming a topic/category noun are ignored; see README.md.
+    default: false
+    client: false
